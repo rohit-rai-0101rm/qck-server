@@ -10,8 +10,6 @@ app.use(express.json())
 app.use(cookieParser())
 
 
-
-
 app.use(errorMiddleware)
 
 module.exports=app
