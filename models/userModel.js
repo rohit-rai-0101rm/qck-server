@@ -23,9 +23,9 @@ const UserSchema = new mongoose.Schema({
     minLength: [8, "Password should be greater than 8 characters"],
     select: false,
   },
-  isAdmin:{
-      type:Boolean,
-      default:false,
+  role: {
+    type: String,
+    default: "user",
   },
   
 },{
