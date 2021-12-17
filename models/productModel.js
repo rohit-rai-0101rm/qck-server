@@ -13,11 +13,13 @@ const ProductSchema = new mongoose.Schema({
 
   },
 
-  derscription: {
+  description: {
     type: String,
-    required: [true, "Please Enter Your Email"],
-    unique: true,
-    validate: [validator.isEmail, "Please Enter a valid Email"],
+    required: [true, "Please Enter product description"],
+  },
+  img:{
+    type:String,
+    required:true
   },
   categories: {
     type: Array,
