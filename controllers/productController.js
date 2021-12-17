@@ -1,6 +1,7 @@
 const Product=require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+
 //const cloudinary = require("cloudinary");
 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -11,6 +12,40 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
       newProduct,
     });
   });
+  exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
+    const qNew = req.query.new;
+    const qCateg=req.query.category;
+    let products
+    if(qNew){
+        products=await Product.find().sort({
+            createAt:-1
+        }).limit(1)
+    }
+    else if(qCateg){
+        products=await Product.find({categories:{
+            $in:[qCateg],
+        }},
+        )}
+        else{
+           products=await Product.find() 
+        }    
+  
+    res.status(200).json({
+      success: true,
+      products
+    });
+  });
+  
+  // Get All Product (Admin)
+  exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+    const products = await Product.find();
+  
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  });
+  
   exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
   
