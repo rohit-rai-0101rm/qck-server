@@ -134,7 +134,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 });
 exports.updateProfile=catchAsyncErrors(async(req,res,next)=>{
     const newUserData={
-        name:req.body.name,
+        username:req.body.username,
         email:req.body.email    
     }
     const user=await User.findByIdAndUpdate(req.user.id,newUserData,{
@@ -148,8 +148,9 @@ exports.updateProfile=catchAsyncErrors(async(req,res,next)=>{
 
 })
 exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
-    const users = await User.find();
-  
+  const query=req.query.new
+
+    const users = query?await User.find().sort({_id:-1}).limit(3):await User.find();
     res.status(200).json({
       success: true,
       users,
@@ -169,9 +170,31 @@ exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
       user,
     });
   });
+  exports.getStats = catchAsyncErrors(async (req, res, next) => {
+  const date=new Date();
+  const lastYear=new Date(date.setFullYear(date.getFullYear()-1))
+  const data = await User.aggregate([
+    { $match: { createdAt: { $gte: lastYear } } },
+    {
+      $project: {
+        month: { $month: "$createdAt" },
+      },
+    },
+    {
+      $group: {
+        _id: "$month",
+        total: { $sum: 1 },
+      },
+    },
+  ]);
+    res.status(200).json({
+      success: true,
+      data,
+    });
+  });
   exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
-      name: req.body.name,
+      username: req.body.username,
       email: req.body.email,
       role: req.body.role,
     };
