@@ -12,4 +12,4 @@ router
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct);
 
-//router.route("/product/:id").get(getProductDetails);
+router.route("/product/:id").get(getProductDetails);
