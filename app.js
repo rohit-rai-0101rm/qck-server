@@ -11,7 +11,10 @@ app.use(cookieParser())
 const user=require("./routes/userRoute")
 const product = require("./routes/productRoute");
 const cart=require("./routes/cartRoute")
+const orders=require("./routes/orderRoute")
+const payment=require("./routes/paymentRoute")
 app.use("/api/v1",user)
+app.use("/api/v1",orders)
 
 app.use("/api/v1", product);
 app.use("/api/v1", cart);

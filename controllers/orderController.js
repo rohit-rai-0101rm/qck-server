@@ -1,13 +1,13 @@
-const Order = require("../models/Order");
+const Order = require("../models/orderModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   const order = new Order(req.body);
-  const savedOrder = await order.save;
+  const savedOrder = await order.save();
 
   res.status(201).json({
     success: true,
-    savedOrder,
+    order,
   });
 });
 exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
@@ -71,7 +71,7 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
       {
         $group: {
           _id: "$month",
-          total: { $sum: $sales },
+          total: { $sum: "$sales" },
         },
       },
     ]);

@@ -3,7 +3,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 exports.makeNewCart = catchAsyncErrors(async (req, res, next) => {
   const newCart = req.body;
-  const savedCart = await newCart.save;
+  const savedCart = await newCart.save();
 
   res.status(201).json({
     success: true,

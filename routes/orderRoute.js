@@ -18,10 +18,10 @@ const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.route("/").post(isAuthenticatedUser, newOrder);
-router.route("/:id").put(isAuthenticatedUser, updateOrder);
-router.route("/:id").delete(isAuthenticatedUser, deleteOrder);
-router.route("/find/:userId").get(isAuthenticatedUser, getUserOrders);
+router.route("/orders").post(isAuthenticatedUser, newOrder);
+router.route("/orders/:id").put(isAuthenticatedUser, updateOrder);
+router.route("/orders/:id").delete(isAuthenticatedUser, deleteOrder);
+router.route("/orders/find/:userId").get(isAuthenticatedUser, getUserOrders);
 
 router
   .route("/")
