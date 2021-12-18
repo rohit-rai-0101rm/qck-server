@@ -1,4 +1,4 @@
-const Cart = require("../models/Cart");
+const Cart = require("../models/cartModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 exports.makeNewCart = catchAsyncErrors(async (req, res, next) => {

@@ -11,7 +11,7 @@ const {
   updateUserRole,
   deleteUser,
   getAllUser,
-  getStats
+  getStats,
 } = require("../controllers/userController");
 const router = express.Router();
 
@@ -23,13 +23,14 @@ router.route("/me/update").put(isAuthenticatedUser, updateProfile);
 router
   .route("/admin/users")
   .get(isAuthenticatedUser, authorizeRoles("admin"), getAllUser);
-  router
-  .route("/admin/stats")
-  .get(isAuthenticatedUser, authorizeRoles("admin"), getStats);
+
 router
   .route("/admin/user/:id")
   .get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+router
+  .route("/admin/userStats")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getStats);
 
 module.exports = router;

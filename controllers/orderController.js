@@ -7,18 +7,20 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    savedCart,
+    savedOrder,
   });
 });
 exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
-  const updatedCart = await Cart.findByIdAndUpdate(
+  const updatedOrder = await Cart.findByIdAndUpdate(
     req.params.id,
     {
       $set: req.body,
     },
     { new: true }
   );
-
+  if (!updatedOrder) {
+    return next(new ErrorHandler("order not found", 404));
+  }
   res.status(201).json({
     success: true,
     updatedCart,
@@ -26,6 +28,9 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
 });
 exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
   await Order.findByIdAndDelete(req.params.id);
+  if (!Order) {
+    return next(new ErrorHandler("order not found", 404));
+  }
 
   res.status(201).json({
     success: true,
@@ -34,7 +39,9 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 });
 exports.getUserOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find({ userId: req.params.userId });
- 
+  if (!orders) {
+    return next(new ErrorHandler("no orders for this user", 404));
+  }
   res.status(201).json({
     success: true,
     orders,
@@ -45,7 +52,7 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
   
     res.status(201).json({
       success: true,
-      carts,
+      orders,
     });
   });
   exports.getOrderStats = catchAsyncErrors(async (req, res, next) => {
